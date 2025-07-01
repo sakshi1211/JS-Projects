@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Image</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+
+    <script type="text/javascript">
+
+        var thread;
+        function LoadImg(){
+            document.getElementById("LoadContainer").style.display = "none";
+            document.getElementById("progressContainer").style.display = "block";
+            thread = setInterval(StartProgress,100);
+        }
+
+        var count = 1;
+        function StartProgress(){
+            count++;
+            document.querySelector("progress").value = count;
+            document.getElementById("lblProgresing").innerHTML = `${count} % completed`;
+
+            if(count===100){
+                document.getElementById("progressContainer").style.display = "none";
+                document.getElementById("ImgContainer").style.display = "block";
+                document.querySelector("img").style.animationName = "Fade";
+                document.querySelector("img").style.animationDuration = "5s";
+            }
+        }
+
+        function pauseClick(){
+            clearInterval(thread);
+            document.getElementById("lblProgresing").innerHTML = `${count} % completed <br> [Loading pause]`;
+        }
+
+        function playClick(){
+            thread = setInterval(StartProgress,100);
+            document.getElementById("lblProgresing").innerHTML = `${count} % completed `;
+        }
+
+    </script>
+
+    <style type="text/css">
+
+        body{
+            height: 100vh;
+        }
+        progress{
+            height: 30px;
+            width: 250px;
+        }
+
+        img{
+            width: 350px;
+            height: 400px;
+        }
+
+        @keyframes Fade {
+            from {
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+
+    </style>
+
+</head>
+<body class="container-fluid d-flex align-items-center justify-content-center">
+
+    <div class="text-center">
+
+        <div id="LoadContainer">
+            <button onclick="LoadImg()" class="btn btn-primary">Load Image</button>
+        </div>
+
+        <div id="progressContainer" style="display: none;">
+            <progress min="1" max="100" value="1"></progress>
+            <div id="lblProgresing"></div>
+            <div class="my-2">
+                <button onclick="pauseClick()" class="btn btn-warning bi bi-pause me-2"></button>
+                <button onclick="playClick()" class="btn btn-success bi bi-play"></button>
+            </div>
+        </div>
+
+        <div id="ImgContainer" style="display: none;">
+            <img src="womens-fashion.jpg" alt="womens-fashion">
+        </div>
+
+    </div>
+    
+</body>
+</html>
